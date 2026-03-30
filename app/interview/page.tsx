@@ -11,6 +11,7 @@ import {
   Loader2,
   AlertCircle,
   ChevronRight,
+  Sparkles,
 } from "lucide-react";
 import clsx from "clsx";
 
