@@ -24,23 +24,23 @@ type FormData = {
 type Step = "intro" | "category" | "analyzing";
 
 const categoryColors: Record<string, string> = {
-  blue: "bg-blue-500",
+  blue: "bg-slate-500",
   purple: "bg-purple-500",
   orange: "bg-orange-500",
   teal: "bg-teal-500",
-  red: "bg-red-500",
-  green: "bg-green-500",
+  red: "bg-rose-500",
+  green: "bg-green-600",
   yellow: "bg-yellow-500",
 };
 
 const categoryBorders: Record<string, string> = {
-  blue: "border-blue-200 focus:ring-blue-500",
-  purple: "border-purple-200 focus:ring-purple-500",
-  orange: "border-orange-200 focus:ring-orange-500",
-  teal: "border-teal-200 focus:ring-teal-500",
-  red: "border-red-200 focus:ring-red-500",
-  green: "border-green-200 focus:ring-green-500",
-  yellow: "border-yellow-200 focus:ring-yellow-500",
+  blue: "border-slate-300 focus:ring-slate-400",
+  purple: "border-purple-200 focus:ring-purple-400",
+  orange: "border-orange-200 focus:ring-orange-400",
+  teal: "border-teal-200 focus:ring-teal-400",
+  red: "border-rose-200 focus:ring-rose-400",
+  green: "border-green-200 focus:ring-green-400",
+  yellow: "border-yellow-200 focus:ring-yellow-400",
 };
 
 export default function InterviewPage() {
@@ -139,7 +139,6 @@ export default function InterviewPage() {
       const { analysis } = await res.json();
       session.aiAnalysis = analysis;
 
-      // Store in sessionStorage for the rapport page
       sessionStorage.setItem("tomSession", JSON.stringify(session));
       router.push("/rapport");
     } catch (err: unknown) {
@@ -158,13 +157,13 @@ export default function InterviewPage() {
 
   if (step === "analyzing") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+      <div className="min-h-screen flex items-center justify-center p-6 bg-slate-50">
         <div className="text-center max-w-md">
           {analyzeError ? (
-            <div className="bg-white rounded-3xl p-10 shadow-2xl">
-              <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <div className="bg-white rounded-3xl p-10 shadow-lg border border-slate-200">
+              <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-500" />
               <h2 className="text-2xl font-bold text-slate-800 mb-3">Analyse feilet</h2>
-              <p className="text-slate-600 mb-6 text-sm">{analyzeError}</p>
+              <p className="mb-6 text-sm text-slate-500">{analyzeError}</p>
               <button
                 onClick={() => { setStep("category"); setIsAnalyzing(false); }}
                 className="btn-primary"
@@ -174,18 +173,21 @@ export default function InterviewPage() {
             </div>
           ) : (
             <div className="text-center">
-              <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Loader2 className="w-10 h-10 text-blue-300 animate-spin" />
+              <div
+                className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+                style={{ background: "rgba(0,138,0,0.12)" }}
+              >
+                <Loader2 className="w-10 h-10 animate-spin" style={{ color: "#008A00" }} />
               </div>
-              <h2 className="text-3xl font-bold text-white mb-4">AI analyserer besvarelsen</h2>
-              <p className="text-blue-300 text-lg mb-2">Identifiserer styrker og utviklingsområder...</p>
-              <p className="text-blue-400 text-sm">Genererer handlingsplan og rapport</p>
+              <h2 className="text-3xl font-bold text-slate-800 mb-4">AI analyserer besvarelsen</h2>
+              <p className="text-lg mb-2 text-slate-500">Identifiserer styrker og utviklingsområder...</p>
+              <p className="text-sm text-slate-400">Genererer handlingsplan og rapport</p>
               <div className="mt-8 flex justify-center gap-2">
                 {[0, 1, 2].map((i) => (
                   <div
                     key={i}
-                    className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"
-                    style={{ animationDelay: `${i * 0.2}s` }}
+                    className="w-2 h-2 rounded-full animate-bounce"
+                    style={{ background: "#7BC87A", animationDelay: `${i * 0.2}s` }}
                   />
                 ))}
               </div>
@@ -198,21 +200,27 @@ export default function InterviewPage() {
 
   if (step === "intro") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-900">
-        <header className="border-b border-blue-800/40 backdrop-blur-sm">
+      <div className="min-h-screen bg-slate-50">
+        <header className="border-b border-slate-200 bg-white">
           <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-3">
-            <div className="w-9 h-9 bg-blue-500 rounded-xl flex items-center justify-center">
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center"
+              style={{ background: "#008A00" }}
+            >
               <Target className="w-5 h-5 text-white" />
             </div>
-            <span className="text-white font-bold">TOM-portalen</span>
+            <span className="text-slate-800 font-bold">TOM-portalen</span>
           </div>
         </header>
 
         <div className="max-w-2xl mx-auto px-6 py-16">
-          <div className="bg-white rounded-3xl shadow-2xl p-8">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Target className="w-8 h-8 text-blue-600" />
+              <div
+                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                style={{ background: "rgba(0,138,0,0.10)" }}
+              >
+                <Target className="w-8 h-8" style={{ color: "#008A00" }} />
               </div>
               <h1 className="text-3xl font-bold text-slate-800 mb-3">Start TOM-intervju</h1>
               <p className="text-slate-500 leading-relaxed">
@@ -254,8 +262,11 @@ export default function InterviewPage() {
               </div>
             </div>
 
-            <div className="mt-8 p-4 bg-blue-50 rounded-xl">
-              <p className="text-blue-700 text-sm font-medium mb-2">Hva du kan forvente:</p>
+            <div
+              className="mt-8 p-4 rounded-xl"
+              style={{ background: "rgba(0,138,0,0.07)", border: "1px solid rgba(0,138,0,0.2)" }}
+            >
+              <p className="text-sm font-medium mb-2" style={{ color: "#006E00" }}>Hva du kan forvente:</p>
               <ul className="space-y-1">
                 {[
                   `${tomCategories.length} analyseområder med ${tomCategories.reduce((s, c) => s + c.questions.length, 0)} spørsmål totalt`,
@@ -263,8 +274,8 @@ export default function InterviewPage() {
                   "AI-analyse av alle svar etter fullføring",
                   "Nedlastbar PDF-rapport med handlingsplan",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-blue-600 text-sm">
-                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                  <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
+                    <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#008A00" }} />
                     {item}
                   </li>
                 ))}
@@ -287,7 +298,7 @@ export default function InterviewPage() {
 
   // Category step
   const color = currentCategory.color;
-  const borderClass = categoryBorders[color] || "border-slate-200 focus:ring-blue-500";
+  const borderClass = categoryBorders[color] || "border-slate-200 focus:ring-slate-400";
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -310,8 +321,8 @@ export default function InterviewPage() {
           </div>
           <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div
-              className="h-full bg-blue-500 rounded-full transition-all duration-500"
-              style={{ width: `${overallProgress}%` }}
+              className="h-full rounded-full transition-all duration-500"
+              style={{ width: `${overallProgress}%`, background: "#008A00" }}
             />
           </div>
         </div>
@@ -338,9 +349,10 @@ export default function InterviewPage() {
                   i < currentCategoryIndex
                     ? "bg-green-100 text-green-700"
                     : i === currentCategoryIndex
-                    ? clsx("text-white", categoryColors[cat.color])
+                    ? "text-white"
                     : "bg-slate-100 text-slate-500"
                 )}
+                style={i === currentCategoryIndex ? { background: "#008A00" } : undefined}
               >
                 {i < currentCategoryIndex ? (
                   <CheckCircle className="w-3 h-3" />
@@ -358,7 +370,10 @@ export default function InterviewPage() {
           {currentCategory.questions.map((q, qi) => (
             <div key={q.id} className="card p-6">
               <div className="flex items-start gap-3 mb-4">
-                <span className={clsx("flex-shrink-0 w-7 h-7 rounded-full text-white text-xs font-bold flex items-center justify-center", categoryColors[color])}>
+                <span
+                  className="flex-shrink-0 w-7 h-7 rounded-full text-white text-xs font-bold flex items-center justify-center"
+                  style={{ background: "#008A00" }}
+                >
                   {qi + 1}
                 </span>
                 <div>
@@ -394,9 +409,10 @@ export default function InterviewPage() {
                         className={clsx(
                           "flex-1 h-12 rounded-xl font-bold text-sm transition-all duration-200 border-2",
                           answers[q.id] === val
-                            ? clsx("text-white border-transparent", categoryColors[color])
+                            ? "text-white border-transparent"
                             : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
                         )}
+                        style={answers[q.id] === val ? { background: "#008A00" } : undefined}
                       >
                         {val}
                       </button>
@@ -419,9 +435,10 @@ export default function InterviewPage() {
                       className={clsx(
                         "w-full text-left px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all duration-200 flex items-center gap-3",
                         answers[q.id] === option
-                          ? clsx("text-white border-transparent", categoryColors[color])
-                          : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
+                          ? "text-white border-transparent"
+                          : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
                       )}
+                      style={answers[q.id] === option ? { background: "#008A00" } : undefined}
                     >
                       <ChevronRight className="w-4 h-4 flex-shrink-0" />
                       {option}
@@ -442,9 +459,10 @@ export default function InterviewPage() {
                         className={clsx(
                           "px-4 py-2 rounded-xl border-2 text-sm font-medium transition-all duration-200 flex items-center gap-2",
                           selected
-                            ? clsx("text-white border-transparent", categoryColors[color])
-                            : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
+                            ? "text-white border-transparent"
+                            : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
                         )}
+                        style={selected ? { background: "#008A00" } : undefined}
                       >
                         {selected && <CheckCircle className="w-3.5 h-3.5" />}
                         {option}
@@ -473,10 +491,7 @@ export default function InterviewPage() {
           <div className="text-slate-500 text-sm">
             {currentCategoryIndex + 1} / {totalCategories}
           </div>
-          <button
-            onClick={handleNextCategory}
-            className="btn-primary"
-          >
+          <button onClick={handleNextCategory} className="btn-primary">
             {currentCategoryIndex === totalCategories - 1 ? (
               <>
                 Analyser besvarelsen
