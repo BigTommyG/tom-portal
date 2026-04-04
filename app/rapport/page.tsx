@@ -125,17 +125,17 @@ function RadarScore({ scores }: { scores: Record<string, number> }) {
         />
       ))}
 
-      {/* Score polygon */}
+      {/* Score polygon – Atea green */}
       <polygon
         points={scorePoints.map((p) => `${p.x},${p.y}`).join(" ")}
-        fill="rgba(59, 130, 246, 0.2)"
-        stroke="#3b82f6"
+        fill="rgba(0, 138, 0, 0.15)"
+        stroke="#008A00"
         strokeWidth="2"
       />
 
       {/* Score dots */}
       {scorePoints.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="4" fill="#3b82f6" />
+        <circle key={i} cx={p.x} cy={p.y} r="4" fill="#008A00" />
       ))}
 
       {/* Labels */}
@@ -190,7 +190,6 @@ export default function RapportPage() {
       if (!res.ok) throw new Error("PDF-generering feilet");
 
       const html = await res.text();
-      // Open in new window for print-to-PDF
       const printWindow = window.open("", "_blank");
       if (!printWindow) {
         throw new Error("Popup ble blokkert. Tillat popups for denne siden.");
@@ -212,7 +211,7 @@ export default function RapportPage() {
   if (!session) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#008A00" }} />
       </div>
     );
   }
@@ -258,7 +257,10 @@ export default function RapportPage() {
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center">
+            <div
+              className="w-8 h-8 rounded-xl flex items-center justify-center"
+              style={{ background: "#008A00" }}
+            >
               <Target className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -282,26 +284,29 @@ export default function RapportPage() {
 
       <div className="max-w-5xl mx-auto px-6 py-8">
         {/* Report header */}
-        <div className="bg-gradient-to-br from-blue-900 to-indigo-900 rounded-3xl p-8 mb-6 text-white">
+        <div className="rounded-3xl p-8 mb-6 text-white" style={{ background: "#008A00" }}>
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
-              <div className="flex items-center gap-2 text-blue-300 text-sm mb-3">
+              <div className="flex items-center gap-2 text-sm mb-3 text-white/70">
                 <Target className="w-4 h-4" />
                 Target Operating Model – Analyse
               </div>
               <h1 className="text-3xl font-bold mb-2">{session.organisasjon}</h1>
-              <p className="text-blue-200">
+              <p className="text-white/80">
                 {session.intervjuobjekt} · {session.rolle}
               </p>
-              <p className="text-blue-400 text-sm mt-1">{session.dato}</p>
+              <p className="text-sm mt-1 text-white/60">{session.dato}</p>
             </div>
-            <div className="text-center bg-white/10 rounded-2xl p-6 min-w-36">
-              <p className="text-blue-300 text-sm mb-1">TOM-score</p>
-              <p className={clsx("text-6xl font-bold mb-1", scoreColor.replace("text-", "text-"))}>
+            <div
+              className="text-center rounded-2xl p-6 min-w-36"
+              style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)" }}
+            >
+              <p className="text-sm mb-1 text-white/70">TOM-score</p>
+              <p className={clsx("text-6xl font-bold mb-1", scoreColor)}>
                 {analysis.totalScore}
-                <span className="text-2xl text-blue-300">/5</span>
+                <span className="text-2xl text-white/60">/5</span>
               </p>
-              <p className="text-blue-200 text-xs">{scoreLabel}</p>
+              <p className="text-xs text-white/70">{scoreLabel}</p>
             </div>
           </div>
         </div>
@@ -309,7 +314,7 @@ export default function RapportPage() {
         {/* Summary */}
         <div className="card p-6 mb-6">
           <div className="flex items-center gap-2 mb-4">
-            <BarChart2 className="w-5 h-5 text-blue-600" />
+            <BarChart2 className="w-5 h-5" style={{ color: "#008A00" }} />
             <h2 className="text-xl font-bold text-slate-800">Sammendrag</h2>
           </div>
           <p className="text-slate-600 leading-relaxed text-base">{analysis.sammendrag}</p>
@@ -361,14 +366,17 @@ export default function RapportPage() {
 
           <div className="card p-6">
             <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="w-5 h-5 text-blue-600" />
+              <TrendingUp className="w-5 h-5" style={{ color: "#008A00" }} />
               <h2 className="text-lg font-bold text-slate-800">Utviklingsområder</h2>
             </div>
             <ul className="space-y-3">
               {analysis.utviklingsomrader.map((u, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-blue-600 text-xs font-bold">{i + 1}</span>
+                  <div
+                    className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                    style={{ background: "rgba(0,138,0,0.12)" }}
+                  >
+                    <span className="text-xs font-bold" style={{ color: "#008A00" }}>{i + 1}</span>
                   </div>
                   <span className="text-slate-600 text-sm leading-relaxed">{u}</span>
                 </li>
@@ -418,12 +426,7 @@ export default function RapportPage() {
                       <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
                         {rec.kategori}
                       </span>
-                      <span
-                        className={clsx(
-                          "badge border text-xs",
-                          PRIORITY_COLORS[rec.prioritet]
-                        )}
-                      >
+                      <span className={clsx("badge border text-xs", PRIORITY_COLORS[rec.prioritet])}>
                         {rec.prioritet} prioritet
                       </span>
                     </div>
@@ -448,13 +451,20 @@ export default function RapportPage() {
         {analysis.prioriteringer && analysis.prioriteringer.length > 0 && (
           <div className="card p-6 mb-6">
             <div className="flex items-center gap-2 mb-4">
-              <Target className="w-5 h-5 text-blue-600" />
+              <Target className="w-5 h-5" style={{ color: "#008A00" }} />
               <h2 className="text-lg font-bold text-slate-800">Neste steg – prioritert handlingsplan</h2>
             </div>
             <div className="space-y-3">
               {analysis.prioriteringer.map((p, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 bg-blue-50 rounded-xl">
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <div
+                  key={i}
+                  className="flex items-start gap-4 p-4 rounded-xl"
+                  style={{ background: "rgba(0,138,0,0.06)", border: "1px solid rgba(0,138,0,0.15)" }}
+                >
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: "#008A00" }}
+                  >
                     <span className="text-white text-sm font-bold">{i + 1}</span>
                   </div>
                   <p className="text-slate-700 text-sm leading-relaxed pt-1">{p}</p>
@@ -484,7 +494,11 @@ export default function RapportPage() {
                       const val = session.answers[q.id];
                       const display = Array.isArray(val) ? val.join(", ") : String(val);
                       return (
-                        <div key={q.id} className="border-l-2 border-slate-200 pl-4">
+                        <div
+                          key={q.id}
+                          className="border-l-2 pl-4"
+                          style={{ borderColor: "#7BC87A" }}
+                        >
                           <p className="text-xs text-slate-500 mb-1">{q.question}</p>
                           <p className="text-sm text-slate-700 font-medium">{display}</p>
                         </div>
@@ -498,16 +512,20 @@ export default function RapportPage() {
         </div>
 
         {/* Download CTA */}
-        <div className="mt-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-center no-print">
+        <div
+          className="mt-8 rounded-2xl p-8 text-center no-print"
+          style={{ background: "#008A00" }}
+        >
           <Download className="w-10 h-10 text-white/80 mx-auto mb-3" />
           <h3 className="text-xl font-bold text-white mb-2">Last ned PDF-rapport</h3>
-          <p className="text-blue-200 text-sm mb-5">
+          <p className="text-white/80 text-sm mb-5">
             Komplett rapport med analyse, anbefalinger og handlingsplan klar for ledelse og styre.
           </p>
           <button
             onClick={handleDownloadPdf}
             disabled={isGeneratingPdf}
-            className="bg-white text-blue-700 font-bold px-8 py-3 rounded-xl hover:bg-blue-50 transition-all inline-flex items-center gap-2"
+            className="font-bold px-8 py-3 rounded-xl hover:bg-slate-50 transition-all inline-flex items-center gap-2"
+            style={{ background: "white", color: "#008A00" }}
           >
             {isGeneratingPdf ? (
               <><Loader2 className="w-4 h-4 animate-spin" /> Genererer PDF...</>
